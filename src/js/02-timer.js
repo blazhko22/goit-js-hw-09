@@ -67,6 +67,8 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
+    if (Date.now() >= selectedDates[0].getTime())
+      return window.alert('Please choose a date in the future');
     refs.start.disabled = false;
     timer.date = selectedDates[0].getTime();
     timer.init();
