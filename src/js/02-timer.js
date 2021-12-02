@@ -1,10 +1,18 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
+const refs = {
+  start: document.querySelector('[data-start]'),
+  days: document.querySelector('[data-days]'),
+  hours: document.querySelector('[data-hours]'),
+  minutes: document.querySelector('[data-minutes]'),
+  seconds: document.querySelector('[data-seconds]'),
+};
+
 class Timer {
   constructor({ onTime }) {
     this.onTime = onTime;
-    this.countDown = 0;
+    this.countDown = null;
   }
 
   init() {
@@ -23,7 +31,12 @@ class Timer {
       this.onTime(time);
     }, 1000);
   }
-
+  stop() {
+    clearInterval(this.intervalId);
+    this.startTime = false;
+    const ms = this.convertMs(0);
+    this.onTick(ms);
+  }
   convertMs(ms) {
     const second = 1000;
     const minute = second * 60;
@@ -50,14 +63,6 @@ class Timer {
     this.countDown = date;
   }
 }
-
-const refs = {
-  start: document.querySelector('[data-start]'),
-  days: document.querySelector('[data-days]'),
-  hours: document.querySelector('[data-hours]'),
-  minutes: document.querySelector('[data-minutes]'),
-  seconds: document.querySelector('[data-seconds]'),
-};
 
 refs.start.disabled = true;
 
